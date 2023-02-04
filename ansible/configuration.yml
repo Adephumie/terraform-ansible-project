@@ -1,0 +1,54 @@
+---
+- name: Ansible playbook to configure EC2 servers
+  hosts: webservers
+  become: true 
+  gather_facts: False
+  tasks:
+    - name: update and upgrade apt repository
+      tags: always
+      apt:
+        update_cache: yes
+        upgrade: yes
+
+    - name: Install Apache and PHP packages for servers
+      tags: apache, php
+      apt:
+        pkg:
+          - apache2
+          - php
+          - libapache2-mod-php
+        state: latest
+        update_cache: yes
+
+    - name: Start and enable Apache server
+      shell: |
+        systemctl start apache2
+        systemctl enable apache2   
+
+    - name: Set the timezone of servers to Africa/Lagos.
+      tags: apache, php
+      timezone:
+        name: Africa/Lagos
+
+    - name: Remove the default Apache document root file
+      tags: apache, php
+      file:
+        path: /var/www/html/index.html
+        state: absent
+
+    - name: Copying server_stats directory contents to remote hosts
+      tags: apache, php 
+      copy:
+        src: ./server_stats_template/
+        dest: /var/www/html
+        mode: 0744
+      notify: Reload Apache
+
+  handlers:
+    - name: Reload Apache
+      service:
+        name: apache2
+        state: reloaded
+    
+
+  

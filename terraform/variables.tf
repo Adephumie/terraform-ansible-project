@@ -37,19 +37,19 @@ variable "subnet_D_cidr_block" {
 variable "availability_zone_A" {
   description = "availability zone for public subnets A and B"
   type        = string
-  default     = "us-east-1a"
+  default     = ""
 }
 
 variable "availability_zone_B" {
   description = "availability zone for public subnets C and D"
   type        = string
-  default     = "us-east-1b"
+  default     = ""
 }
 
 variable "key_pair_name" {
-  description = "Name given to the instances key pair"
+  description = "EC2 key pair"
   type        = string
-  default     = "webserver-key"
+  default     = ""
 }
 
 variable "vm_type" {
@@ -82,9 +82,8 @@ variable "domain_name" {
   default     = ""
 }
 
-#variable "alt_domain_name" {
-#  description = "Alternative domain name for Application Load Balancer"
-#  type        = string
-#  default     = "terraform-test.funmilayofagoyinbo.com"
-#}
-
+variable "sub_domain_name" {
+  description = "sub-domain name for Application Load Balancer"
+  type        = string
+  default     = ""
+}

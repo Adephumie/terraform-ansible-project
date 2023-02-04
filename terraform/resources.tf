@@ -10,7 +10,8 @@ resource "aws_instance" "webserver_1" {
   instance_type               = var.vm_type
   availability_zone           = var.availability_zone_A
   associate_public_ip_address = true
-  key_name                    = aws_key_pair.instance_key_pair.key_name
+  security_groups             = [aws_security_group.vm_security_group.id]
+  key_name                    = var.key_pair_name
   subnet_id                   = aws_subnet.pub_subnet_B.id
 
   tags = {
@@ -24,7 +25,8 @@ resource "aws_instance" "webserver_2" {
   instance_type               = var.vm_type
   availability_zone           = var.availability_zone_B
   associate_public_ip_address = true
-  key_name                    = aws_key_pair.instance_key_pair.key_name
+  security_groups             = [aws_security_group.vm_security_group.id]
+  key_name                    = var.key_pair_name
   subnet_id                   = aws_subnet.pub_subnet_C.id
 
   tags = {
@@ -38,7 +40,8 @@ resource "aws_instance" "webserver_3" {
   instance_type               = var.vm_type
   availability_zone           = var.availability_zone_B
   associate_public_ip_address = true
-  key_name                    = aws_key_pair.instance_key_pair.key_name
+  security_groups             = [aws_security_group.vm_security_group.id]
+  key_name                    = var.key_pair_name
   subnet_id                   = aws_subnet.pub_subnet_D.id
 
   tags = {
@@ -121,18 +124,6 @@ resource "aws_lb_target_group_attachment" "web_3_tg_attach" {
   port             = 80
 }
 
-# Create HTTP listener to forward load balancer requests to target group
-resource "aws_lb_listener" "http_lb_listener" {
-  load_balancer_arn = aws_lb.project_lb.arn
-  port              = "80"
-  protocol          = "HTTP"
-
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.project_target_group.arn
-  }
-}
-
 # Create HTTPS listener for ALB requests 
 resource "aws_lb_listener" "https_lb_listener" {
   load_balancer_arn = aws_lb.project_lb.arn
@@ -164,11 +155,6 @@ resource "aws_lb_listener" "http_to_https" {
   }
 }
 
-# Create a Load Balancer Listener Certificate
-resource "aws_lb_listener_certificate" "project_lb_list_cert" {
-  listener_arn    = aws_lb_listener.http_lb_listener.arn
-  certificate_arn = var.ssl_certificate_arn
-}
 
 
 

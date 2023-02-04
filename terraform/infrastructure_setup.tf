@@ -104,12 +104,6 @@ resource "aws_route_table_association" "pub_subnet_D_association" {
   route_table_id = aws_route_table.pub-Route-T.id
 }
 
-# Create key-pair for logging into EC2 in us-east-1 region
-resource "aws_key_pair" "instance_key_pair" {
-  key_name   = var.key_pair_name
-  public_key = file("~/.ssh/id_rsa.pub")
-}
-
 # Create Security Group for allowing TCP/80, TCP/22, and TCP/443 on the VMs
 resource "aws_security_group" "vm_security_group" {
   name        = "vm_security_group"
