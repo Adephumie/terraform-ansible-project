@@ -39,7 +39,7 @@
     - name: Copying server_stats directory contents to remote hosts
       tags: apache, php 
       copy:
-        src: ./server_stats_template/
+        src: ./server_template/
         dest: /var/www/html
         mode: 0744
       notify: Reload Apache

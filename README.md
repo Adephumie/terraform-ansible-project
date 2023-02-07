@@ -4,7 +4,17 @@
 
 This is another mini-project from AltSchool that seeks to explore my understanding of deploying infrastructures with Terraform, an Infrastructure as Code Tool.
 
+
 The instructions to the project has been shared in the [`instructions.txt`](instructions.txt) file located in the project's directory.
+
+Below are the final images of the webpage served by the load balancer containing details of the server IP addresses and time using the subdomain.domain-name.com as specified.
+![load-balancer-apache-website-1](images/load-bal-display-1.png "load-balancer-apache-website-1")
+
+![load-balancer-apache-website-2](images/load-bal-display-2.png "load-balancer-apache-website-2")
+
+![load-balancer-apache-website-3](images/load-bal-display-3.png "load-balancer-apache-website-3")
+
+
 
 Instructions for using repo:
 1. Add the values of the variables defined in the `variable.tf` file
